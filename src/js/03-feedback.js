@@ -37,9 +37,10 @@ function sendFormData(event) {
   event.currentTarget.reset();
 }
 
-function checkLocaleStorage(event) {
-  const savedData = JSON.parse(localStorage.getItem('feedback-form-state'));
-
+function checkLocaleStorage() {
+  const savedData = localStorage.getItem('feedback-form-state')
+    ? JSON.parse(localStorage.getItem('feedback-form-state'))
+    : {};
   if (savedData.email) {
     emailEl.value = savedData.email;
   }
@@ -49,3 +50,18 @@ function checkLocaleStorage(event) {
 }
 
 checkLocaleStorage();
+
+// function checkLocaleStorage() {
+//   const lsData = localStorage.getItem('feedback-form-state');
+//   if (lsData) {
+//     const savedData = JSON.parse(lsData);
+//     if (savedData.email) {
+//       emailEl.value = savedData.email;
+//     }
+//     if (savedData.message) {
+//       messageEl.value = savedData.message;
+//     }
+//   }
+// }
+
+// checkLocaleStorage();
