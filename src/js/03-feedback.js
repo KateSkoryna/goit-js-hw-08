@@ -5,6 +5,8 @@ const emailEl = document.querySelector('input');
 const messageEl = document.querySelector('textarea');
 const formData = {};
 
+checkLocaleStorage();
+
 emailEl.addEventListener('input', throttle(getInputValues, 500));
 messageEl.addEventListener('input', throttle(getInputValues, 500));
 
@@ -49,8 +51,6 @@ function checkLocaleStorage() {
   }
 }
 
-checkLocaleStorage();
-
 // function checkLocaleStorage() {
 //   const lsData = localStorage.getItem('feedback-form-state');
 //   if (lsData) {
@@ -63,5 +63,3 @@ checkLocaleStorage();
 //     }
 //   }
 // }
-
-// checkLocaleStorage();
