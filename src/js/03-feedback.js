@@ -1,9 +1,63 @@
 const throttle = require('lodash.throttle');
 
+const form = document.querySelector('.feedback-form');
+const emailEl = document.querySelector('input');
+const messageEl = document.querySelector('textarea');
+
+checkLocaleStorage();
+
+form.addEventListener('input', throttle(getInputValues, 500));
+
+function getInputValues(event) {
+  event.preventDefault();
+
+  let formData = localStorage.getItem('feedback-form-state')
+    ? JSON.parse(localStorage.getItem('feedback-form-state'))
+    : {};
+
+  formData[event.target.name] = event.target.value;
+
+  localStorage.setItem('feedback-form-state', JSON.stringify(formData));
+}
+
+form.addEventListener('submit', sendFormData);
+
+function sendFormData(event) {
+  event.preventDefault();
+
+  const email = event.target.elements.email.value;
+  const message = event.target.elements.message.value;
+
+  if (email === '' || message === '') {
+    alert('Please fill in all the fields!');
+  } else {
+    localStorage.removeItem('feedback-form-state');
+    console.log({ email, message });
+  }
+
+  event.currentTarget.reset();
+}
+
+function checkLocaleStorage() {
+  let formData = localStorage.getItem('feedback-form-state');
+  if (formData) {
+    formData = JSON.parse(formData);
+    Object.entries(formData).forEach(([name, value]) => {
+      form.elements[name].value = value;
+    });
+  }
+}
+
+// ВТОРОЙ ВАРИАНТ
+
+// const throttle = require('lodash.throttle');
+
 // const form = document.querySelector('.feedback-form');
 // const emailEl = document.querySelector('input');
 // const messageEl = document.querySelector('textarea');
-// const formData = {};
+// const formData = localStorage.getItem('feedback-form-state')
+//   ? JSON.parse(localStorage.getItem('feedback-form-state'))
+//   : {};
 
 // checkLocaleStorage();
 
@@ -40,26 +94,10 @@ const throttle = require('lodash.throttle');
 // }
 
 // function checkLocaleStorage() {
-//   const savedData = localStorage.getItem('feedback-form-state')
-//     ? JSON.parse(localStorage.getItem('feedback-form-state'))
-//     : {};
-//   if (savedData.email) {
-//     emailEl.value = savedData.email;
+//   if (formData.email) {
+//     emailEl.value = formData.email;
 //   }
-//   if (savedData.message) {
-//     messageEl.value = savedData.message;
-//   }
-// }
-
-// function checkLocaleStorage() {
-//   const lsData = localStorage.getItem('feedback-form-state');
-//   if (lsData) {
-//     const savedData = JSON.parse(lsData);
-//     if (savedData.email) {
-//       emailEl.value = savedData.email;
-//     }
-//     if (savedData.message) {
-//       messageEl.value = savedData.message;
-//     }
+//   if (formData.message) {
+//     messageEl.value = formData.message;
 //   }
 // }
