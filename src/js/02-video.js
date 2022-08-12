@@ -5,24 +5,24 @@ const iframe = document.querySelector('iframe');
 const player = new Player(iframe);
 
 player.on('timeupdate', throttle(onCurrantTime, 1000));
-
 function onCurrantTime(data) {
   const currantTime = data.seconds;
   localStorage.setItem('videoplayer-current-time', currantTime);
   console.log(currantTime);
 }
-
 const getCurrantTimeValue = localStorage.getItem('videoplayer-current-time');
+if (getCurrantTimeValue) {
+  player.setCurrentTime(getCurrantTimeValue);
+}
 
-player
-  .setCurrentTime(getCurrantTimeValue)
-  .then(function (seconds) {})
-  .catch(function (error) {
-    switch (error.name) {
-      case 'RangeError':
-        break;
-
-      default:
-        break;
-    }
-  });
+// player
+//   .setCurrentTime(getCurrantTimeValue)
+//   .then(function (seconds) {})
+//   .catch(function (error) {
+//     switch (error.name) {
+//       case 'RangeError':
+//         break;
+//       default:
+//         break;
+//     }
+//   });
